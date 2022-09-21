@@ -11,7 +11,7 @@ def sentenceclean(path):
     while line:
         str = str + line
         line = f.readline()
-    '''jieba中文分词'''
+    '''调用jieba来进行中文分词'''
     sentence1 = jieba.lcut(str)
     '''由于是中文文本的查重，把除中文外的符号全部清除'''
     d = "[\u4e00-\u9fa5]+"
@@ -44,3 +44,19 @@ def calc_similarity(str1, str2):
     cosine_sim = similarity[test_corpus_1][1]
     return cosine_sim
 
+def main():
+    if __name__ == '__main__':
+        path1 = input("请输入原文件的绝对路径")
+        path2 = input("请输入抄袭文件的绝对路径")
+        save_path = input("请输入输出答案的绝对路径")
+        str1 = sentenceclean(path1)
+        str2 = sentenceclean(path2)
+        similarity = calc_similarity(str1, str2)
+        print("文章相似度： %.4f" % similarity)
+        f = open(save_path, 'w', encoding="utf-8")
+        f.write("文章相似度： %.4f" % similarity)
+        f.close()
+
+
+if __name__ == '__main__':
+    main()
